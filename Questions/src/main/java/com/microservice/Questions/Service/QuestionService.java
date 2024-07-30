@@ -14,4 +14,6 @@ public interface QuestionService {
     Question getQuestionById(int id);
 
     String deleteById(int id);
+
+    List<Question> findByQuizId(int quizId);
 }

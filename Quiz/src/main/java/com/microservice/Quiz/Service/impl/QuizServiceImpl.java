@@ -3,11 +3,13 @@ package com.microservice.Quiz.Service.impl;
 import com.microservice.Quiz.Entity.Quiz;
 
 import com.microservice.Quiz.Repo.QuizRepo;
+import com.microservice.Quiz.Service.QuestionClient;
 import com.microservice.Quiz.Service.QuizService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -16,9 +18,11 @@ public class QuizServiceImpl implements QuizService {
 
     private final QuizRepo quizRepo;
 
+    private final QuestionClient questionClient;
 
-    public QuizServiceImpl(final QuizRepo quizRepo) {
+    public QuizServiceImpl(final QuizRepo quizRepo, QuestionClient questionClient) {
         this.quizRepo = quizRepo;
+        this.questionClient = questionClient;
     }
 
 
@@ -29,11 +33,21 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<Quiz> getAll() {
-        return quizRepo.findAll();
+        List<Quiz> quizzesWithoutQuestion = quizRepo.findAll();
+        List<Quiz> quizzesWithQuestions = quizzesWithoutQuestion.stream().map(quiz ->
+        {
+            quiz.setQuestions(questionClient.listOfQuestionOfQuiz(quiz.getId()));
+            return quiz;
+        }).toList();
+
+        return quizzesWithQuestions;
+
     }
 
     @Override
     public Quiz getById(int id) {
-        return quizRepo.findById(id).orElseThrow(() -> new RuntimeException("No Quiz found"));
+        Quiz quiz = quizRepo.findById(id).orElseThrow(() -> new RuntimeException("No Quiz found"));
+         quiz.setQuestions(questionClient.listOfQuestionOfQuiz(quiz.getId()));
+        return quiz;
     }
 }

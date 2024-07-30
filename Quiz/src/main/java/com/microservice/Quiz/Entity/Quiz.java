@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -21,6 +23,8 @@ public class Quiz {
     private int id;
 
     private String name;
+
+    private transient List<Question> questions;
 
 
 

@@ -50,4 +50,9 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     }
+
+    @Override
+    public List<Question> findByQuizId(int quizId) {
+        return questionRepo.findByQuizId(quizId);
+    }
 }

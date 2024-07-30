@@ -38,4 +38,11 @@ public class QuestionController {
         return questionService.deleteById(id);
     }
 
+    @GetMapping("/quiz/{quizId}")
+    public List<Question> findByQuizId(@PathVariable int quizId){
+
+        return questionService.findByQuizId(quizId);
+
+    }
+
 }
