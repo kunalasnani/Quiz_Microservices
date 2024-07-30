@@ -12,7 +12,7 @@ import java.util.List;
 @Transactional
 public class QuestionServiceImpl implements QuestionService {
 
-    private QuestionRepo questionRepo;
+    private  QuestionRepo questionRepo;
 
 
     public QuestionServiceImpl(QuestionRepo questionRepo) {
@@ -33,5 +33,21 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question getQuestionById(int id) {
         return questionRepo.findById(id).orElseThrow(() -> new RuntimeException("Question not found"));
+    }
+
+    @Override
+    public String deleteById(int id) {
+
+        if(questionRepo.getReferenceById(id) != null){
+            questionRepo.deleteById(id);
+            return "Question has been deleted";
+        }
+        else{
+            return "Question not found";
+        }
+
+
+
+
     }
 }

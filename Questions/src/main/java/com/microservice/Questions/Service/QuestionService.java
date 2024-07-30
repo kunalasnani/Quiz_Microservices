@@ -13,4 +13,5 @@ public interface QuestionService {
 
     Question getQuestionById(int id);
 
+    String deleteById(int id);
 }

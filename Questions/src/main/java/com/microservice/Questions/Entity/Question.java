@@ -13,8 +13,8 @@ import org.springframework.boot.autoconfigure.web.WebProperties;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Question {
 
     @Id
